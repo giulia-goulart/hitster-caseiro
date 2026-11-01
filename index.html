@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111015">
+<title>Hitster caseiro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+
+  <!-- 1. Login -->
+  <section id="s-login" class="screen">
+    <div class="disc"></div>
+    <h1>Hitster caseiro</h1>
+    <p class="muted">Escaneie a carta, ouça 15 segundos, adivinhe o ano.</p>
+    <div id="clientid-box" hidden>
+      <label for="clientid">Client ID do app Spotify</label>
+      <input id="clientid" autocomplete="off" spellcheck="false" placeholder="cole aqui">
+    </div>
+    <button id="btn-login" class="primary">Entrar com Spotify</button>
+    <p class="tiny muted">Precisa de conta Spotify Premium.</p>
+  </section>
+
+  <!-- 2. Ativar player (gesto exigido pelo navegador) -->
+  <section id="s-start" class="screen" hidden>
+    <div class="disc"></div>
+    <h1>Pronto?</h1>
+    <p class="muted" id="start-status">Conectando ao Spotify…</p>
+    <button id="btn-start" class="primary" disabled>Começar</button>
+  </section>
+
+  <!-- 3. Scanner -->
+  <section id="s-scan" class="screen" hidden>
+    <h2>Aponte para o QR da carta</h2>
+    <div class="cam"><video id="video" playsinline muted></video><div class="frame"></div></div>
+    <details class="manual">
+      <summary>Digitar link manualmente</summary>
+      <form id="manual-form"><input id="manual" placeholder="https://open.spotify.com/track/…"><button>Tocar</button></form>
+    </details>
+  </section>
+
+  <!-- 4. Tocando (tela que esconde a música) -->
+  <section id="s-play" class="screen" hidden>
+    <div class="ring-wrap">
+      <svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="ring-bg"/><circle cx="60" cy="60" r="54" class="ring-fg" id="ring"/></svg>
+      <div class="disc spin" id="play-disc"></div>
+      <div class="count" id="count">15</div>
+    </div>
+    <p class="muted" id="play-status">Carregando…</p>
+    <div class="row">
+      <button id="btn-again">↻ Tocar de novo</button>
+      <button id="btn-reveal" class="ghost">Revelar</button>
+    </div>
+    <div id="reveal" class="reveal" hidden></div>
+    <button id="btn-next" class="primary">Próxima carta</button>
+  </section>
+
+  <p id="err" class="err" hidden></p>
+  <button id="btn-logout" class="link" hidden>sair</button>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script src="app.js"></script>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+</body>
+</html>
