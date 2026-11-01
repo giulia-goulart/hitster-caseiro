@@ -91,8 +91,15 @@ async function api(path, opts = {}) {
   });
   if (r.status === 204) return null;
   const txt = await r.text();
-  const j = txt ? JSON.parse(txt) : null;
-  if (!r.ok) throw new Error(`Spotify API ${r.status}: ${j?.error?.message || txt}`);
+  let j = null;
+  try { j = txt ? JSON.parse(txt) : null; } catch { j = null; }
+  if (!r.ok) {
+    const msg = j?.error?.message || txt || r.statusText;
+    if (/not registered|may not be registered/i.test(msg)) {
+      throw new Error('Esta conta do Spotify não está liberada no app. O dono precisa adicioná-la em developer.spotify.com/dashboard → Hitster caseiro → User Management. (' + msg + ')');
+    }
+    throw new Error(`Spotify ${r.status}: ${msg}`);
+  }
   return j;
 }
 
